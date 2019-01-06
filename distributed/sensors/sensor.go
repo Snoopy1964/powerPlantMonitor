@@ -36,13 +36,12 @@ func main() {
 	defer ch.Close()
 
 	dataQueue := qutils.GetQueue(*name, ch)
-
-	sensorQueue := qutils.GetQueue(qutils.SensorListQueue, ch)
+	// sensorQueue := qutils.GetQueue(qutils.SensorListQueue, ch)
 
 	msg := amqp.Publishing{Body: []byte(dataQueue.Name)}
 	ch.Publish(
+		"amq.fanout",
 		"",
-		sensorQueue.Name,
 		false,
 		false,
 		//		new(amqp.Publishing{Body: []byte(dataQueue.Name),})
