@@ -37,8 +37,8 @@ func main() {
 
 	dataQueue := qutils.GetQueue(*name, ch)
 	// sensorQueue := qutils.GetQueue(qutils.SensorListQueue, ch)
-
-	msg := amqp.Publishing{Body: []byte(dataQueue.Name)}
+	// msg := amqp.Publishing{Body: []byte(sensorQueue.Name)}
+	msg := amqp.Publishing{Body: []byte(*name)}
 	ch.Publish(
 		"amq.fanout",
 		"",
@@ -52,7 +52,7 @@ func main() {
 	signal := time.Tick(dur)
 
 	buf := new(bytes.Buffer)
-	enc := gob.NewEncoder(buf)
+	// enc := gob.NewEncoder(buf)
 
 	for range signal {
 		calcValue()
@@ -63,6 +63,7 @@ func main() {
 		}
 
 		buf.Reset()
+		enc := gob.NewEncoder(buf)
 		enc.Encode(reading)
 
 		msg := amqp.Publishing{
@@ -71,7 +72,7 @@ func main() {
 
 		ch.Publish("", dataQueue.Name, false, false, msg)
 
-		log.Printf("Reading sent. Value: %v\n", value)
+		log.Printf("Reading sent. Value: %v\n", reading)
 	}
 }
 
