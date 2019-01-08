@@ -38,14 +38,18 @@ func main() {
 	dataQueue := qutils.GetQueue(*name, ch)
 	// sensorQueue := qutils.GetQueue(qutils.SensorListQueue, ch)
 	// msg := amqp.Publishing{Body: []byte(sensorQueue.Name)}
-	msg := amqp.Publishing{Body: []byte(*name)}
-	ch.Publish(
-		"amq.fanout",
-		"",
-		false,
-		false,
-		//		new(amqp.Publishing{Body: []byte(dataQueue.Name),})
-		msg)
+
+	publishQueueName(ch)
+
+	discoveryQueue := qutils.GetQueue("", ch)
+	ch.QueueBind(
+		discoveryQueue.Name,            // name string,
+		"",                             // key string,
+		qutils.SensorDiscoveryExchange, // exchange string,
+		false,                          // noWait bool,
+		nil)                            // args amqp.Table)
+
+	go listenForDiscoveryRequests(discoveryQueue.Name, ch)
 
 	dur, _ := time.ParseDuration(strconv.Itoa(1000/int(*freq)) + "ms")
 
@@ -74,6 +78,25 @@ func main() {
 
 		log.Printf("Reading sent. Value: %v\n", reading)
 	}
+}
+func listenForDiscoveryRequests(name string, ch *amqp.Channel) {
+	msgs, _ := ch.Consume(name, "", true, false, false, false, nil)
+	for range msgs {
+		publishQueueName(ch)
+	}
+
+}
+
+func publishQueueName(ch *amqp.Channel) {
+	msg := amqp.Publishing{Body: []byte(*name)}
+	ch.Publish(
+		"amq.fanout",
+		"",
+		false,
+		false,
+		//		new(amqp.Publishing{Body: []byte(dataQueue.Name),})
+		msg)
+
 }
 
 func calcValue() {

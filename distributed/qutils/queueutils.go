@@ -7,7 +7,8 @@ import (
 	"github.com/streadway/amqp"
 )
 
-const SensorListQueue = "PowerPlantSensorList"
+// const SensorListQueue = "PowerPlantSensorList"
+const SensorDiscoveryExchange = "SensorDiscovery"
 
 func GetChannel(url string) (*amqp.Connection, *amqp.Channel) {
 	conn, err := amqp.Dial(url)
