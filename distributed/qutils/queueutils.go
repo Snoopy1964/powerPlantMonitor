@@ -7,13 +7,11 @@ import (
 	"github.com/streadway/amqp"
 )
 
-// const SensorListQueue = "PowerPlantSensorList"
 const SensorDiscoveryExchange = "SensorDiscovery"
 
 func GetChannel(url string) (*amqp.Connection, *amqp.Channel) {
 	conn, err := amqp.Dial(url)
 	failOnError(err, "Failed to establish a connection to message broker")
-
 	ch, err := conn.Channel()
 	failOnError(err, "Failed to get channel for connection")
 

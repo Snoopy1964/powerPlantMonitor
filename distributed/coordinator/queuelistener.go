@@ -40,6 +40,8 @@ func (ql *QueueListener) DiscoverSensors() {
 		false,                          // internal bool,
 		false,                          // noWait bool,
 		nil)                            // args amqp.Table)
+
+	ql.ch.Publish(qutils.SensorDiscoveryExchange, "", false, false, amqp.Publishing{})
 }
 
 func (ql *QueueListener) ListenForNewSources() {
@@ -76,7 +78,7 @@ func (ql *QueueListener) ListenForNewSources() {
 				nil)              //args amqp.Table)
 
 			ql.sources[string(msg.Body)] = sourceChan
-			
+
 			go ql.AddListener(sourceChan)
 			fmt.Printf("new ListenerQueue added: %s\n:", string(msg.Body))
 		}
@@ -90,7 +92,7 @@ func (ql *QueueListener) AddListener(msgs <-chan amqp.Delivery) {
 		d := gob.NewDecoder(r)
 		sd := new(dto.SensorMessage)
 		d.Decode(sd)
-		// fmt.Printf("Message received (undecoded): %v\n", msg)
+
 		fmt.Printf("Message received: %v\n", sd)
 
 		ed := EventData{

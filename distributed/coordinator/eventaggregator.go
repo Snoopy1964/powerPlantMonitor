@@ -1,6 +1,8 @@
 package coordinator
 
-import "time"
+import (
+	"time"
+)
 
 type EventAggregator struct {
 	listeners map[string][]func(EventData)

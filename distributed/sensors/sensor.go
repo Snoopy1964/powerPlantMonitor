@@ -82,9 +82,9 @@ func main() {
 func listenForDiscoveryRequests(name string, ch *amqp.Channel) {
 	msgs, _ := ch.Consume(name, "", true, false, false, false, nil)
 	for range msgs {
+		log.Printf("\nreceived discovery request from %s\n\n:", name)
 		publishQueueName(ch)
 	}
-
 }
 
 func publishQueueName(ch *amqp.Channel) {
@@ -94,7 +94,6 @@ func publishQueueName(ch *amqp.Channel) {
 		"",
 		false,
 		false,
-		//		new(amqp.Publishing{Body: []byte(dataQueue.Name),})
 		msg)
 
 }
