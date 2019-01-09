@@ -1,0 +1,15 @@
+postgres:
+  image: postgres
+  ports:
+    - '5432:5432'
+  environment:
+    POSTGRES_USER: 'user'
+    POSTGRESS_PASSWORD: 'password'
+    POSTGRES_DB: 'powerPlantMonitor'
+  volumes:
+    - ./init:/docker-entrypoint-initdb.d/
+
+# docker-compose -p PPM -f pd.yml up
+# cli: docker exec -it <Container ID or Name> psql -U user powerPlantMonitor
+# pgadmin: docker run -p 80:80 -e "PGADMIN_DEFAULT_EMAIL=user@domain.com" -e "PGADMIN_DEFAULT_PASSWORD=password" -d dpage/pgadmin4
+    

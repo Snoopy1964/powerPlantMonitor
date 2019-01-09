@@ -35,13 +35,13 @@ func main() {
 	defer conn.Close()
 	defer ch.Close()
 
-	dataQueue := qutils.GetQueue(*name, ch)
+	dataQueue := qutils.GetQueue(*name, ch, false)
 	// sensorQueue := qutils.GetQueue(qutils.SensorListQueue, ch)
 	// msg := amqp.Publishing{Body: []byte(sensorQueue.Name)}
 
 	publishQueueName(ch)
 
-	discoveryQueue := qutils.GetQueue("", ch)
+	discoveryQueue := qutils.GetQueue("", ch, true)
 	ch.QueueBind(
 		discoveryQueue.Name,            // name string,
 		"",                             // key string,

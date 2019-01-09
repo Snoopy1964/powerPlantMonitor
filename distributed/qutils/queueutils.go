@@ -7,7 +7,11 @@ import (
 	"github.com/streadway/amqp"
 )
 
+// queue for discovering sensors
 const SensorDiscoveryExchange = "SensorDiscovery"
+
+// queue for persistent readings
+const PersistReadingsQueue = "PersistReading"
 
 func GetChannel(url string) (*amqp.Connection, *amqp.Channel) {
 	conn, err := amqp.Dial(url)
@@ -18,8 +22,8 @@ func GetChannel(url string) (*amqp.Connection, *amqp.Channel) {
 	return conn, ch
 }
 
-func GetQueue(name string, ch *amqp.Channel) *amqp.Queue {
-	q, err := ch.QueueDeclare(name, false, false, false, false, nil)
+func GetQueue(name string, ch *amqp.Channel, autoDelete bool) *amqp.Queue {
+	q, err := ch.QueueDeclare(name, false, false, autoDelete, false, nil)
 	failOnError(err, "Failed to declare a queue")
 
 	return &q
