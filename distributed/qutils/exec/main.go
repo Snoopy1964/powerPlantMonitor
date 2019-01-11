@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/Snoopy1964/powerPlantMonitor/distributed/dto"
 	"bytes"
 	"encoding/gob"
 	"log"
+
+	"github.com/Snoopy1964/powerPlantMonitor/distributed/dto"
 )
 
 func main() {
@@ -21,6 +22,6 @@ dXJlX291dAH4y/ZJPQi8CUABDwEAAAAO08qKAzVJj9gAPAA=`
 	sd := &dto.SensorMessage{}
 	dec.Decode(sd)
 
-	log.Printf("\n\nDecoded String: %s", sd)
+	log.Printf("\n\nDecoded String: %v", sd)
 
 }
