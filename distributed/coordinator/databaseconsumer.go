@@ -3,6 +3,7 @@ package coordinator
 import (
 	"bytes"
 	"encoding/gob"
+	"log"
 	"time"
 
 	"github.com/Snoopy1964/powerPlantMonitor/distributed/dto"
@@ -50,6 +51,7 @@ func (dc *DatabaseConsumer) SubscribeToDataEvent(eventName string) {
 
 		return func(eventData interface{}) {
 			ed := eventData.(EventData)
+			// log.Printf("!!!! Event ed !!!!: %v", ed)
 			if time.Since(prevTime) > maxRate {
 				prevTime = time.Now()
 
@@ -59,10 +61,12 @@ func (dc *DatabaseConsumer) SubscribeToDataEvent(eventName string) {
 					Tst:   ed.Tst,
 				}
 
+				log.Printf("!!!! Event sm!!!!: %v", sm)
+
 				buf.Reset()
 
-				enc := gob.NewDecoder(buf)
-				enc.Decode(sm)
+				enc := gob.NewEncoder(buf)
+				enc.Encode(sm)
 
 				msg := amqp.Publishing{
 					Body: buf.Bytes(),

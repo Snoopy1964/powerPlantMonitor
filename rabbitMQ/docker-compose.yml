@@ -7,7 +7,7 @@ services:
       RABBITMQ_ERLANG_COOKIE: "secret string"
       RABBITMQ_NODENAME: rabbit1
     volumes: 
-      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      # - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       - ./definitions.json:/etc/rabbitmq/definitions.json
     ports: 
       - "4369:4369"
