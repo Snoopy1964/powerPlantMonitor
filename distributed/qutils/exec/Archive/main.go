@@ -2,11 +2,12 @@ package main
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/gob"
 	"fmt"
 	"time"
 
-	"github.com/Snoopy1964/powerPlantMonitor/distributed/dto"
+	"github.com/snoopy1964/powerPlantMonitor/distributed/dto"
 )
 
 func main() {
@@ -41,6 +42,10 @@ func main() {
 	enc.Encode(reading)
 
 	fmt.Printf("Bytes:  %v\n", buf.Bytes())
+
+	encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
+	fmt.Printf("encoded Bytes:  %v\n", encoded)
+
 	fmt.Printf("String: %s\n", string(buf.Bytes()))
 
 	// ------------------- decoding
@@ -49,5 +54,19 @@ func main() {
 	sd := new(dto.SensorMessage)
 	d.Decode(sd)
 	fmt.Printf("Decoded: %v\n", sd)
+
+	msgBody64 := `N/+BAwEBDVNlbnNvck1lc3NhZ2UB/4IAAQMBBE5hbWUBDAABBVZhbHVlAQgAAQNUc3QB/4QAAAAQ/4MFAQEEVGltZQH/hAAAADP/ggETYm9pbGVyX3ByZXNz
+dXJlX291dAH4y/ZJPQi8CUABDwEAAAAO08qKAzVJj9gAPAA=`
+
+	msgBody, err := base64.StdEncoding.DecodeString(msgBody64)
+
+	if err == nil {
+		fmt.Println("decode error: ", err)
+	}
+
+	r = bytes.NewReader([]byte(msgBody))
+	d = gob.NewDecoder(r)
+	d.Decode(sd)
+	fmt.Printf("Decoded base64: %v\n", sd)
 
 }

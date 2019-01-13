@@ -1,8 +1,13 @@
 package qutils
 
 import (
+	"bytes"
+	"encoding/base64"
+	"encoding/gob"
 	"fmt"
 	"log"
+
+	"github.com/snoopy1964/powerPlantMonitor/distributed/dto"
 
 	"github.com/streadway/amqp"
 )
@@ -34,4 +39,18 @@ func failOnError(err error, msg string) {
 		log.Fatalf("%s: %s", msg, err)
 		panic(fmt.Sprintf("%s: %s", msg, err))
 	}
+}
+
+func DecodeMessage(msgBody64 string) dto.SensorMessage {
+	m, err := base64.StdEncoding.DecodeString(msgBody64)
+	if err != nil {
+		log.Fatalln("Base64 decoding of message failed: ", err)
+	}
+	r := bytes.NewReader(m)
+	d := gob.NewDecoder(r)
+
+	sd := new(dto.SensorMessage)
+	d.Decode(sd)
+
+	return *sd
 }
