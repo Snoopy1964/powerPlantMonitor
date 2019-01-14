@@ -4,7 +4,7 @@ import (
 	"errors"
 	"log"
 
-	"github.com/Snoopy1964/powerPlantMonitor/distributed/dto"
+	"github.com/snoopy1964/powerPlantMonitor/distributed/dto"
 )
 
 var sensors map[string]int

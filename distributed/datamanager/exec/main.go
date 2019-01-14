@@ -5,9 +5,9 @@ import (
 	"encoding/gob"
 	"log"
 
-	"github.com/Snoopy1964/powerPlantMonitor/distributed/datamanager"
-	"github.com/Snoopy1964/powerPlantMonitor/distributed/dto"
-	"github.com/Snoopy1964/powerPlantMonitor/distributed/qutils"
+	"github.com/snoopy1964/powerPlantMonitor/distributed/datamanager"
+	"github.com/snoopy1964/powerPlantMonitor/distributed/dto"
+	"github.com/snoopy1964/powerPlantMonitor/distributed/qutils"
 )
 
 const url = "amqp://guest:guest@localhost:5672"

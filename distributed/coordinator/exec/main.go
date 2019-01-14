@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Snoopy1964/powerPlantMonitor/distributed/coordinator"
+	"github.com/snoopy1964/powerPlantMonitor/distributed/coordinator"
 )
 
 var dc *coordinator.DatabaseConsumer

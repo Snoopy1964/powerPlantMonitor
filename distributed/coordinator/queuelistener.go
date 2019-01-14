@@ -5,8 +5,7 @@ import (
 	"encoding/gob"
 	"fmt"
 
-	"github.com/Snoopy1964/powerPlantMonitor/distributed/dto"
-
+	"github.com/snoopy1964/powerPlantMonitor/distributed/dto"
 	"github.com/snoopy1964/powerPlantMonitor/distributed/qutils"
 	"github.com/streadway/amqp"
 )
