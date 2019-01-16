@@ -8,17 +8,18 @@ RUN  mkdir -p /go/src \
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:$PATH   
 
-RUN mkdir -p $GOPATH/src/PowerPlantMonitor \
- && mkdir -p $GOPATH/src/PowerPlantMonitor/distributed \
- && mkdir -p $GOPATH/src/PowerPlantMonitor/distributed/coordinator 
+RUN mkdir -p $GOPATH/src/github.com/snoopy1964/PowerPlantMonitor \
+ && mkdir -p $GOPATH/src/github.com/snoopy1964/PowerPlantMonitor/distributed \
+ && mkdir -p $GOPATH/src/github.com/snoopy1964/PowerPlantMonitor/distributed/coordinator 
 
 # Copy the local package files to the container's workspace.
-ADD . $GOPATH/src/PowerPlantMonitor/distributed/coordinator
+ADD . $GOPATH/src/github.com/snoopy1964/PowerPlantMonitor/distributed/coordinator
 
-WORKDIR $GOPATH/src/PowerPlantMonitor/distributed/coordinator 
+WORKDIR $GOPATH/src/github.com/snoopy1964/PowerPlantMonitor/distributed/coordinator 
 
 # Environment Variables
 ENV PPM_RABBIT_HOST=rabbit1
+ENV PPM_DB_CONNECTION=postgres1
 # ENV AUTOSTART_INGESTION_JOB false
 # ENV INGESTOR_DOWNLOAD_FOLDER /tmp
 # ENV INGESTION_TASK_FREQUENCY_M 10
@@ -38,7 +39,7 @@ RUN go get -d -v
 RUN go build -o coordinator ./exec/main.go
 
 # Run the outyet command by default when the container starts.
-# CMD ["./coordinator"]
+CMD ["./coordinator"]
 
 # Document that the service listens on port 8080.
-EXPOSE 8080
+# EXPOSE 8080
