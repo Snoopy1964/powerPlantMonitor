@@ -3,15 +3,46 @@ package main
 import (
 	"bytes"
 	"encoding/gob"
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/snoopy1964/powerPlantMonitor/distributed/datamanager"
 	"github.com/snoopy1964/powerPlantMonitor/distributed/dto"
 	"github.com/snoopy1964/powerPlantMonitor/distributed/qutils"
 )
 
-const url = "amqp://guest:guest@localhost:5672"
+// const url = "amqp://guest:guest@localhost:5672"
+var url string
 
+func init() {
+	ENV_ppm_rabbit_host := os.Getenv("PPM_RABBIT_HOST")
+	if ENV_ppm_rabbit_host == "" {
+		ENV_ppm_rabbit_host = "localhost"
+	}
+	ENV_ppm_rabbit_port := os.Getenv("PPM_RABBIT_PORT")
+	if ENV_ppm_rabbit_port == "" {
+		ENV_ppm_rabbit_port = "5672"
+	}
+	ENV_ppm_rabbit_user := os.Getenv("PPM_RABBIT_USER")
+	if ENV_ppm_rabbit_user == "" {
+		ENV_ppm_rabbit_user = "guest"
+	}
+	ENV_ppm_rabbit_password := os.Getenv("PPM_RABBIT_PASSWORD")
+	if ENV_ppm_rabbit_password == "" {
+		ENV_ppm_rabbit_password = "guest"
+	}
+
+	url = fmt.Sprint(
+		"amqp://",
+		ENV_ppm_rabbit_user,
+		":",
+		ENV_ppm_rabbit_password,
+		"@",
+		ENV_ppm_rabbit_host,
+		":",
+		ENV_ppm_rabbit_port)
+}
 func main() {
 	conn, ch := qutils.GetChannel(url)
 	defer conn.Close()

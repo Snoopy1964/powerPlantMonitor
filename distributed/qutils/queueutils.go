@@ -19,6 +19,7 @@ const SensorDiscoveryExchange = "SensorDiscovery"
 const PersistReadingsQueue = "PersistReading"
 
 func GetChannel(url string) (*amqp.Connection, *amqp.Channel) {
+	log.Println("connection to Messagebroker with connection string: ", url)
 	conn, err := amqp.Dial(url)
 	failOnError(err, "Failed to establish a connection to message broker")
 	ch, err := conn.Channel()

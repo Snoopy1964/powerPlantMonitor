@@ -21,7 +21,7 @@ services:
 
   postgres1:
     image: postgres
-#    hostname: postgres_ppm_1
+    hostname: postgres_ppm_1
     ports:
       - '5432:5432'
     environment:

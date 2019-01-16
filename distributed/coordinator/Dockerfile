@@ -18,6 +18,7 @@ ADD . $GOPATH/src/PowerPlantMonitor/distributed/coordinator
 WORKDIR $GOPATH/src/PowerPlantMonitor/distributed/coordinator 
 
 # Environment Variables
+ENV PPM_RABBIT_HOST=rabbit1
 # ENV AUTOSTART_INGESTION_JOB false
 # ENV INGESTOR_DOWNLOAD_FOLDER /tmp
 # ENV INGESTION_TASK_FREQUENCY_M 10
