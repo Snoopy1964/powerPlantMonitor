@@ -1,0 +1,49 @@
+version: "3"
+services: 
+  rabbit1:
+    image: rabbitmq:3-management
+    hostname: rabbit_ppm_1
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "secret string"
+      RABBITMQ_NODENAME: rabbit1
+    volumes: 
+      - ./rabbitMQ/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitMQ/definitions.json:/etc/rabbitmq/definitions.json
+    ports: 
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"    
+      - "25672:25672"
+    networks:
+      - ppm-network
+
+  postgres1:
+    image: postgres
+#    hostname: postgres_ppm_1
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRESS_PASSWORD: 'password'
+      POSTGRES_DB: 'powerPlantMonitor'
+    volumes:
+      - ./db/postgresql/init:/docker-entrypoint-initdb.d/
+    networks:
+     - ppm-network
+
+  posgresadmin1:
+    image: dpage/pgadmin4
+    ports:
+      - "80:80" 
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'user@domain.com'
+      PGADMIN_DEFAULT_PASSWORD: 'password'
+    networks:
+     - ppm-network
+
+networks:
+  ppm-network:
+    driver: bridge
+# (1) docker-compose up -d
