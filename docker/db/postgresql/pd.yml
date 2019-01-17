@@ -1,13 +1,21 @@
-postgres:
-  image: postgres
-  ports:
-    - '5432:5432'
-  environment:
-    POSTGRES_USER: 'user'
-    POSTGRESS_PASSWORD: 'password'
-    POSTGRES_DB: 'powerPlantMonitor'
-  volumes:
-    - ./init:/docker-entrypoint-initdb.d/
+version: "3.7"
+services:
+  postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRESS_PASSWORD: 'password'
+      POSTGRES_DB: 'powerPlantMonitor'
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d/
+ 
+
+# volumes:docker
+#   init:
+#     external: 
+#       name: ./init
 
 # docker-compose -p PPM -f pd.yml up
 # cli: docker exec -it <Container ID or Name> psql -U user powerPlantMonitor

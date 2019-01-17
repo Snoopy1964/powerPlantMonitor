@@ -7,7 +7,7 @@ services:
       RABBITMQ_ERLANG_COOKIE: "secret string"
       RABBITMQ_NODENAME: rabbit1
     volumes: 
-      # - ./rabbitMQ/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitMQ/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       - ./rabbitMQ/definitions.json:/etc/rabbitmq/definitions.json
     ports: 
       - "4369:4369"
@@ -20,7 +20,9 @@ services:
       - ppm-network
 
   postgres1:
-    image: postgres
+    build: 
+      context: ./db/postgresql
+      dockerfile: postgres.dockerfile
     hostname: postgres_ppm_1
     ports:
       - '5432:5432'
