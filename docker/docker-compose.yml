@@ -20,9 +20,10 @@ services:
       - ppm-network
 
   postgres1:
-    build: 
-      context: ./db/postgresql
-      dockerfile: postgres.dockerfile
+    # build: 
+    #   context: ./db/postgresql
+    #   dockerfile: postgres.dockerfile
+    image: postgres
     hostname: postgres_ppm_1
     ports:
       - '5432:5432'
