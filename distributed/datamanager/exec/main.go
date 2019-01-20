@@ -13,7 +13,7 @@ import (
 )
 
 // const url = "amqp://guest:guest@localhost:5672"
-var url string
+var msgUrl string
 
 func init() {
 	ENV_ppm_rabbit_host := os.Getenv("PPM_RABBIT_HOST")
@@ -33,7 +33,7 @@ func init() {
 		ENV_ppm_rabbit_password = "guest"
 	}
 
-	url = fmt.Sprint(
+	msgUrl = fmt.Sprint(
 		"amqp://",
 		ENV_ppm_rabbit_user,
 		":",
@@ -44,7 +44,7 @@ func init() {
 		ENV_ppm_rabbit_port)
 }
 func main() {
-	conn, ch := qutils.GetChannel(url)
+	conn, ch := qutils.GetChannel(msgUrl)
 	defer conn.Close()
 	defer ch.Close()
 
