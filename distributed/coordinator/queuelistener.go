@@ -74,7 +74,7 @@ func (ql *QueueListener) DiscoverSensors() {
 	ql.ch.Publish(qutils.SensorDiscoveryExchange, "", false, false, amqp.Publishing{})
 }
 
-func (ql *QueueListener) ListenForNewSources() {
+func (ql *QueueListener) ListenForNewSources(ch chan string) {
 	q := qutils.GetQueue("", ql.ch, true)
 	ql.ch.QueueBind(
 		q.Name,
@@ -94,11 +94,11 @@ func (ql *QueueListener) ListenForNewSources() {
 
 	ql.DiscoverSensors()
 
-	fmt.Println("Listening for new sensors")
+	ch <- "Listening for new sensors"
 
 	for msg := range msgs {
 		if ql.sources[string(msg.Body)] == nil {
-			fmt.Printf("new source discovered: %s\n", string(msg.Body))
+			ch <- fmt.Sprintf("new source discovered: %s\n", string(msg.Body))
 			ql.ea.PublishEvent("DataSourceDiscovered", string(msg.Body))
 			sourceChan, _ := ql.ch.Consume(
 				string(msg.Body), //queue string,
@@ -112,7 +112,7 @@ func (ql *QueueListener) ListenForNewSources() {
 			ql.sources[string(msg.Body)] = sourceChan
 
 			go ql.AddListener(sourceChan)
-			fmt.Printf("new ListenerQueue added: %s\n:", string(msg.Body))
+			ch <- fmt.Sprintf("new ListenerQueue added: %s\n:", string(msg.Body))
 		}
 	}
 

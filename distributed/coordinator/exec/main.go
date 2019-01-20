@@ -13,8 +13,14 @@ func main() {
 	dc = coordinator.NewDatabaseConsumer(ea)
 	ql := coordinator.NewQueueListener(ea)
 
-	go ql.ListenForNewSources()
+	ch := make(chan string)
 
-	var a string
-	fmt.Scanln(&a)
+	go ql.ListenForNewSources(ch)
+
+	for msg := range ch {
+		fmt.Println(msg)
+	}
+
+	// var a string
+	// fmt.Scanln(&a)
 }
