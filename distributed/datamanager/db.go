@@ -18,7 +18,7 @@ func init() {
 	if dbConUrl == "" {
 		dbConUrl = "postgres://user:password@localhost/powerPlantMonitor?sslmode=disable"
 	}
-	log.Println("connection to Messagebroker with connection string: ", url)
+	log.Println("connection to Messagebroker with connection string: ", dbConUrl)
 
 	var err error
 	db, err = sql.Open("postgres", dbConUrl)
