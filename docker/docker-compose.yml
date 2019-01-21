@@ -45,6 +45,13 @@ services:
       PGADMIN_DEFAULT_PASSWORD: 'password'
     networks:
      - ppm-network
+  
+  ppm-coordinator:
+    build:
+      context: ..
+      dockerfile: ppm-coordinator.dockerfile
+    networks:
+      - ppm-network
 
 networks:
   ppm-network:
