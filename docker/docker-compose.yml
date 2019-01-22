@@ -50,6 +50,19 @@ services:
     build:
       context: ..
       dockerfile: ppm-coordinator.dockerfile
+    depends_on:
+      - rabbit1
+      - postgres1
+    networks:
+      - ppm-network
+
+  ppm-datamanager:
+    build:
+      context: ..
+      dockerfile: ppm-datamanager.dockerfile
+    depends_on:
+      - rabbit1
+      - postgres1
     networks:
       - ppm-network
 
