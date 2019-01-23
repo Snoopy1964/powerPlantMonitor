@@ -3,6 +3,8 @@
 debug
 *.code-workspace
 
+# IntelliJ IDE stuff
+.idea*
 
 # Binaries for programs and plugins
 *.exe
