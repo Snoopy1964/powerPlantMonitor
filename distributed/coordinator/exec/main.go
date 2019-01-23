@@ -21,6 +21,4 @@ func main() {
 		fmt.Println(msg)
 	}
 
-	// var a string
-	// fmt.Scanln(&a)
 }
